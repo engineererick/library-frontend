@@ -1,24 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { Suspense } from 'react';
+import PrivateRoute from './components/auth/privateroute';
+import SignUp from './components/auth/signup';
+import PublicRoute from './components/auth/publicroute';
+import { CreateAdmin } from './components/admin/createAdmin';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<PublicRoute />} />
+          <Route path='/app/*' element={<PrivateRoute path='app' />} />
+          <Route path="/signin" element={<PrivateRoute path='signin' />} />
+          <Route path="/signup" element={<SignUp from='user' />} />
+          <Route path='/create-admin' element={<CreateAdmin />} />
+        </Routes>
+      </BrowserRouter>
+    </Suspense>
   );
 }
 
